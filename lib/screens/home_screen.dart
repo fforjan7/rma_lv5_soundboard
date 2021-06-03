@@ -1,26 +1,30 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  AudioPlayer player = AudioPlayer();
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-  playSound(String path) async {
-    final file = new File('${(await getTemporaryDirectory()).path}/music.mp3');
-    await file.writeAsBytes(
-        (await rootBundle.load('assets/sounds/$path')).buffer.asUint8List());
-    final result = await player.play(file.path, isLocal: true);
+class _HomeScreenState extends State<HomeScreen> {
+  late AudioPlayer player;
+
+  @override
+  void initState() {
+    super.initState();
+    player = AudioPlayer();
   }
 
   @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
-  
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -34,11 +38,12 @@ class HomeScreen extends StatelessWidget {
               height: 170,
               child: InkWell(
                 child: Image.asset(
-                  'assets/images/dog.jpg',
+                  'assets/images/elephant.jpg',
                   fit: BoxFit.cover,
                 ),
-                onTap: () {
-                  playSound('dog.wav');
+                onTap: () async {
+                  await player.setAsset('assets/sounds/elephant.mp3');
+                  player.play();
                 },
               ),
             ),
@@ -49,11 +54,12 @@ class HomeScreen extends StatelessWidget {
               height: 170,
               child: InkWell(
                 child: Image.asset(
-                  'assets/images/cat.jpg',
+                  'assets/images/horse.jpg',
                   fit: BoxFit.cover,
                 ),
-                onTap: () {
-                  playSound('cat.wav');
+                onTap: () async {
+                  await player.setAsset('assets/sounds/horse.mp3');
+                  player.play();
                 },
               ),
             ),
@@ -67,8 +73,9 @@ class HomeScreen extends StatelessWidget {
                   'assets/images/cow.jpg',
                   fit: BoxFit.cover,
                 ),
-                onTap: () {
-                  playSound('cow.wav');
+                onTap: () async {
+                  await player.setAsset('assets/sounds/cow.mp3');
+                  player.play();
                 },
               ),
             ),
