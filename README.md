@@ -1,2 +1,4 @@
-# Razvoj mobilnih aplikacija LV5
+# Razvoj mobilnih aplikacija
+
+## Zadaća - LV5
 
